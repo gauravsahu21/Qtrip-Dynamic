@@ -1,0 +1,4 @@
+__CRIO__/metadata.json merge=copy-merge
+frontend/tests/module/module_1.test.js merge=copy-merge
+frontend/tests/module/module_2.test.js merge=copy-merge
+frontend/tests/module/module_3.test.js merge=copy-merge
