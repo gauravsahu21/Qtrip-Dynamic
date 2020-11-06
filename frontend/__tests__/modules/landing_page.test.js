@@ -1,4 +1,4 @@
-import { fetchCities, addCityToDOM } from "../../modules/module_1.js";
+import { fetchCities, addCityToDOM } from "../../modules/landing_page.js";
 require("jest-fetch-mock").enableMocks();
 const fs = require("fs");
 const path = require("path");
@@ -12,7 +12,7 @@ beforeEach(() => {
   fetch.resetMocks();
 });
 
-describe("Module 1 Tests", function () {
+describe("Landing Page Tests", function () {
   beforeEach(() => {
     document.documentElement.innerHTML = html.toString();
   });
