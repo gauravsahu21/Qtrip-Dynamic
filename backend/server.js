@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const PORT = 4000;
+const PORT = 8082;
 
 /*
 [GET API] used in module 1 to fetch data for all cities

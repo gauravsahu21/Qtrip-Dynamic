@@ -230,7 +230,7 @@ input[type="number"] {
 #reserved-banner {
   display: none;
 }
-#reservation-visit-button {
+.reservation-visit-button {
   background-color: rgb(255, 145, 0);
   color: #fff;
   display: flex;
@@ -242,12 +242,10 @@ input[type="number"] {
   border-radius: 20px;
   cursor: pointer;
 }
-#reservation-visit-button:hover {
+.reservation-visit-button:hover {
   background-color: rgb(226, 129, 1);
 }
-#reservation-table-parent {
-  display: none;
-}
+
 #carouselExampleIndicators {
   width: 100%;
 }

@@ -1,4 +1,7 @@
 //Implementation to extract adventure ID from query params
+
+import config from "../conf/index.js";
+
 function getAdventureIdFromURL(search) {
   const urlParams = new URLSearchParams(search);
   const adventureId = urlParams.get("adventure");
@@ -8,7 +11,7 @@ function getAdventureIdFromURL(search) {
 async function fetchAdventureDetails(adventureId) {
   try {
     const result = await fetch(
-      `http://localhost:4000/adventures/detail?adventure=${adventureId}`
+      config.backendEndpoint + `/adventures/detail?adventure=${adventureId}`
     );
     const data = await result.json();
     return data;
@@ -112,7 +115,7 @@ function captureFormSubmitUsingJQuery(adventure) {
     e.preventDefault();
     var data = $(this).serialize() + "&adventure=" + adventure.id;
 
-    let url = "http://localhost:4000/reservations/new";
+    let url = config.backendEndpoint + "/reservations/new";
 
     $.ajax({
       url: url,
