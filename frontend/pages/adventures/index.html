@@ -136,21 +136,29 @@
     })();
 
 
-
-    // < !-- all functions below this can be given as stubs -->
-
     //executed when onChange() is triggered on duration filter dropdown
     function selectDuration(event) {
+      // TODO: MODULE_FILTERS
+      // 1. Change the DOM to show the selected duration filter. Use the provided input event
+      // 2. Invoke saveFiltersToLocalStorage here
+
+      // CRIO_SOLUTION_START_MODULE_CITIES
       document.getElementById("data").textContent = "";
 
       filters["duration"] = event.target.value;
       let filteredAdventures = filterFunction(adventures, filters);
       addAdventureToDOM(filteredAdventures);
       saveFiltersToLocalStorage(filters);
+      // CRIO_SOLUTION_END_MODULE_CITIES
     }
 
     //executed when clear button is clicked on duration filter dropdown
     function clearDuration(event) {
+      // TODO: MODULE_FILTERS
+      // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
+      // 2. Invoke saveFiltersToLocalStorage here
+      
+      // CRIO_SOLUTION_START_MODULE_CITIES
       document.getElementById("duration-select").selectedIndex = 0;
       document.getElementById("data").textContent = "";
 
@@ -158,6 +166,7 @@
       let filteredAdventures = filterFunction(adventures, filters);
       addAdventureToDOM(filteredAdventures);
       saveFiltersToLocalStorage(filters);
+      // CRIO_SOLUTION_END_MODULE_CITIES
     }
 
 
@@ -178,7 +187,12 @@
       generateFilterPillsAndUpdateDOM(filters);
       let filteredAdventures = filterFunction(adventures, filters);
       addAdventureToDOM(filteredAdventures);
+      
+      // TODO: MODULE_FILTERS
+      // 1. Invoke saveFiltersToLocalStorage here
+      // CRIO_SOLUTION_START_MODULE_CITIES
       saveFiltersToLocalStorage(filters);
+      // CRIO_SOLUTION_END_MODULE_CITIES
     }
 
     //executed when clear button is clicked on category filter dropdown
@@ -189,7 +203,12 @@
       filters["category"] = [];
       let filteredAdventures = filterFunction(adventures, filters);
       addAdventureToDOM(filteredAdventures);
+
+      // TODO: MODULE_FILTERS
+      // 1. Invoke saveFiltersToLocalStorage here
+      // CRIO_SOLUTION_START_MODULE_CITIES
       saveFiltersToLocalStorage(filters);
+      // CRIO_SOLUTION_END_MODULE_CITIES
     }
 
     //helper function
