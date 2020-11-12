@@ -28,6 +28,15 @@ describe("Landing Page Tests", function () {
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/cities"));
   });
 
+  it("Catches errors and returns null", async () => {
+    fetch.mockReject(() => "API failure");
+
+    const data = await fetchCities();
+
+    expect(data).toEqual(null);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/cities"));
+  });
 
   it("Tries adding a new City - London", function () {
     addCityToDOM("london", "London", "London", "London");
