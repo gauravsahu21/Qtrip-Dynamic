@@ -78,6 +78,26 @@ describe("Adventure Detail Page Tests", function () {
     );
   });
 
+  it("Check if bootstrap gallery is working", function () {
+    let images = [
+      "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    ];
+    addBootstrapPhotoGallery(images);
+
+    expect(document.getElementsByClassName("carousel slide")).toBeTruthy();
+    expect(document.getElementsByClassName("carousel-item").length).toBe(
+      images.length
+    );
+    expect(document.getElementsByClassName("carousel-item active").length).toBe(
+      1
+    );
+    expect(document.getElementsByClassName("carousel slide").length).toBe(1);
+  });
+
   it("Check if conditional rendering is working", function () {
     let adventure = {
       id: "6298356896",
@@ -128,6 +148,7 @@ describe("Adventure Detail Page Tests", function () {
       document.getElementById("reservation-panel-sold-out").style.display
     ).toBe("block");
   });
+
   it("Check if reservation cost is calculated correctly and updated in DOM", function () {
     let adventure = {
       id: "6298356896",
@@ -150,25 +171,7 @@ describe("Adventure Detail Page Tests", function () {
       String(77742)
     );
   });
-  it("Check if bootstrap gallery is working", function () {
-    let images = [
-      "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-    ];
-    addBootstrapPhotoGallery(images);
 
-    expect(document.getElementsByClassName("carousel slide")).toBeTruthy();
-    expect(document.getElementsByClassName("carousel-item").length).toBe(
-      images.length
-    );
-    expect(document.getElementsByClassName("carousel-item active").length).toBe(
-      1
-    );
-    expect(document.getElementsByClassName("carousel slide").length).toBe(1);
-  });
   it("Check if reservation banner is displayed", function () {
     let adventure = {
       id: "6298356896",
