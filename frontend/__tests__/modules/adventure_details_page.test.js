@@ -78,78 +78,6 @@ describe("Adventure Detail Page Tests", function () {
     );
   });
 
-  it("Check if conditional rendering is working", function () {
-    let adventure = {
-      id: "6298356896",
-      name: "Grand Dinyardlodge",
-      subtitle: "This is a mind-blowing adventure!",
-      images: [
-        "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-        "https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      ],
-      content:
-        "A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete.",
-      available: true,
-      reserved: false,
-      costPerHead: 1000,
-    };
-    conditionalRenderingOfReservationPanel(adventure);
-
-    expect(
-      document.getElementById("reservation-panel-available").style.display
-    ).toBe("block");
-    expect(
-      document.getElementById("reservation-panel-sold-out").style.display
-    ).toBe("none");
-    expect(document.getElementById("reservation-person-cost").innerHTML).toBe(
-      String(adventure.costPerHead)
-    );
-
-    adventure = {
-      id: "6298356896",
-      name: "Grand Dinyardlodge",
-      subtitle: "This is a mind-blowing adventure!",
-      images: [
-        "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-        "https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      ],
-      content:
-        "A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete.",
-      available: false,
-      reserved: false,
-      costPerHead: 1000,
-    };
-    conditionalRenderingOfReservationPanel(adventure);
-
-    expect(
-      document.getElementById("reservation-panel-available").style.display
-    ).toBe("none");
-    expect(
-      document.getElementById("reservation-panel-sold-out").style.display
-    ).toBe("block");
-  });
-  it("Check if reservation cost is calculated correctly and updated in DOM", function () {
-    let adventure = {
-      id: "6298356896",
-      name: "Grand Dinyardlodge",
-      subtitle: "This is a mind-blowing adventure!",
-      images: [
-        "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-        "https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      ],
-      content:
-        "A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete.",
-      available: true,
-      reserved: false,
-      costPerHead: 1234,
-    };
-    let persons = 63;
-    calculateReservationCostAndUpdateDOM(adventure, persons);
-
-    expect(document.getElementById("reservation-cost").innerHTML).toBe(
-      String(77742)
-    );
-  });
   it("Check if bootstrap gallery is working", function () {
     let images = [
       "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
@@ -169,45 +97,5 @@ describe("Adventure Detail Page Tests", function () {
     );
     expect(document.getElementsByClassName("carousel slide").length).toBe(1);
   });
-  it("Check if reservation banner is displayed", function () {
-    let adventure = {
-      id: "6298356896",
-      name: "Grand Dinyardlodge",
-      subtitle: "This is a mind-blowing adventure!",
-      images: [
-        "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-        "https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      ],
-      content:
-        "A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete.",
-      available: true,
-      reserved: true,
-      costPerHead: 1000,
-    };
-    showBannerIfAlreadyReserved(adventure);
 
-    expect(document.getElementById("reserved-banner").style.display).toBe(
-      "block"
-    );
-
-    adventure = {
-      id: "6298356896",
-      name: "Grand Dinyardlodge",
-      subtitle: "This is a mind-blowing adventure!",
-      images: [
-        "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-        "https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      ],
-      content:
-        "A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete.",
-      available: false,
-      reserved: false,
-      costPerHead: 1000,
-    };
-    showBannerIfAlreadyReserved(adventure);
-
-    expect(document.getElementById("reserved-banner").style.display).toBe(
-      "none"
-    );
-  });
 });
