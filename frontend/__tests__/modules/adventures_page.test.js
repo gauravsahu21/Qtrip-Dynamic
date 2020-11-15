@@ -190,16 +190,6 @@ describe("Adventure Page Tests", function () {
         category: "Cycling",
       },
       {
-        id: "3091807921",
-        name: "East Phisphoe",
-        price: "500",
-        currency: "INR",
-        image:
-          "https://images.pexels.com/photos/3380805/pexels-photo-3380805.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        duration: 10,
-        category: "Beaches",
-      },
-      {
         id: "3091807922",
         name: "Beach Cabanna",
         price: "500",
@@ -253,7 +243,7 @@ describe("Adventure Page Tests", function () {
       },
     ];
     let output = filterFunction(input, {
-      duration: "6-20",
+      duration: "12-20",
       category: ["Beaches", "Cycling"],
     });
 
