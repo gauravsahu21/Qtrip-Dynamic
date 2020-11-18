@@ -6,8 +6,11 @@ import {
   addBootstrapPhotoGallery,
   calculateReservationCostAndUpdateDOM,
   showBannerIfAlreadyReserved,
+  captureFormSubmitUsingJQuery,
 } from "../../modules/adventure_details_page.js";
 require("jest-fetch-mock").enableMocks();
+global.jQuery = require("jquery");
+global.$ = global.jQuery;
 
 const fs = require("fs");
 const path = require("path");
@@ -16,8 +19,31 @@ const html = fs.readFileSync(
   "utf8"
 );
 jest.dontMock("fs");
+jest.spyOn(window, "alert").mockImplementation(() => {});
+
+function ajax_response(response, success) {
+  return function (params) {
+    if (success) {
+      params.success(response);
+    } else {
+      params.error(response);
+    }
+  };
+}
 
 describe("Adventure Detail Page Tests", function () {
+  const { reload } = window.location;
+  beforeAll(() => {
+    Object.defineProperty(window, "location", {
+      writable: true,
+      value: { reload: jest.fn() },
+    });
+  });
+
+  afterAll(() => {
+    window.location.reload = reload;
+  });
+
   beforeEach(() => {
     fetch.resetMocks();
     document.documentElement.innerHTML = html.toString();
@@ -213,4 +239,33 @@ describe("Adventure Detail Page Tests", function () {
       "none"
     );
   });
+  it("Check if JQuery form submission is taking place", function () {
+    let adventure = {
+      id: "6298356896",
+      name: "Grand Dinyardlodge",
+      subtitle: "This is a mind-blowing adventure!",
+      images: [
+        "https://images.pexels.com/photos/3061171/pexels-photo-3061171.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      ],
+      content:
+        "A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete.",
+      available: true,
+      reserved: false,
+      costPerHead: 1234,
+    };
+
+    captureFormSubmitUsingJQuery(adventure);
+
+    $.ajax = ajax_response('{ "response": "Dummy response." }', false);
+    $("#myForm").trigger("submit");
+    expect(window.alert).toHaveBeenCalledWith("Failed!");
+    expect(window.location.reload).toHaveBeenCalledTimes(0);
+
+    $.ajax = ajax_response('{ "response": "Dummy response." }', true);
+    $("#myForm").trigger("submit");
+    expect(window.alert).toHaveBeenCalledWith("Success!");
+    expect(window.location.reload).toHaveBeenCalled();
+  });
+
 });

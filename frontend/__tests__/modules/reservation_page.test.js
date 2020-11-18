@@ -86,9 +86,7 @@ describe("Reservation Page Tests", function () {
     );
     reservations.map((ele, idx) => {
       expect(document.getElementById(ele.id).children[0].href).toEqual(
-        expect.stringContaining(
-          `frontend/pages/adventures/detail/?adventure=${ele.adventure}`
-        )
+        expect.stringContaining(`detail/?adventure=${ele.adventure}`)
       );
       let children = document.getElementById("reservation-table").children[idx]
         .children;
