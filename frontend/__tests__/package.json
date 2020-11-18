@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ICU_DATA=node_modules/full-icu jest --verbose ./modules"
+    "test": "NODE_ICU_DATA=node_modules/full-icu TZ=Asia/Kolkata jest --verbose ./modules"
   },
   "author": "",
   "license": "ISC",

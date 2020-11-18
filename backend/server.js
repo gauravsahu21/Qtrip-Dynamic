@@ -9,6 +9,11 @@ var dayjs = require("dayjs");
 const db = lowDb(new FileSync("db.json"));
 const app = express();
 const random_data = require("./random_data");
+var utc = require("dayjs/plugin/utc"); // dependent on utc plugin
+var timezone = require("dayjs/plugin/timezone");
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Kolkata");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -225,8 +230,8 @@ app.post("/adventures/new", (req, res) => {
   res.json({ success: true, ...adventuresData });
 });
 
-app.listen(PORT || process.env.PORT, () => {
-  console.log(`Backend is running on http://localhost:${PORT}`);
+app.listen(process.env.PORT || PORT, () => {
+  console.log(`Backend is running on port ${process.env.PORT || PORT}`);
 });
 
 /*
