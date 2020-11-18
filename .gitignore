@@ -25,3 +25,6 @@ frontend/__tests__/node_modules
 build/*
 frontend/__tests__/junit.xml
 frontend/package-lock.json
+
+# Local Netlify folder
+.netlify
