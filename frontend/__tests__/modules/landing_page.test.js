@@ -25,6 +25,7 @@ describe("Landing Page Tests", function () {
   it("Check if fetch call for cities was made and data was received", async () => {
     const data = await fetchCities();
     expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).not.toHaveBeenCalledWith(expect.stringContaining("//cities"));
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/cities"));
   });
 
@@ -35,6 +36,7 @@ describe("Landing Page Tests", function () {
 
     expect(data).toEqual(null);
     expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).not.toHaveBeenCalledWith(expect.stringContaining("//cities"));
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/cities"));
   });
 
