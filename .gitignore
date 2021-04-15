@@ -24,9 +24,6 @@ build/*
 
 frontend/__tests__/junit.xml
 frontend/__tests__/node_modules
-frontend/__tests__/package-lock.json
-frontend/package-lock.json
-backend/package-lock.json
 backend/node_modules
 
 # Local Netlify folder
