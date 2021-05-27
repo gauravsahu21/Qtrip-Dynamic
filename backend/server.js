@@ -108,11 +108,13 @@ app.post("/reservations/new", (req, res) => {
       .find((item) => item.id == req.body.adventure)
       .assign({ reserved: true, available: false })
       .write();
-    const costPerHead = instance.find((item) => item.id == req.body.adventure)
-      .costPerHead;
+    const costPerHead = instance.find(
+      (item) => item.id == req.body.adventure
+    ).costPerHead;
 
-    const adventureName = instance.find((item) => item.id == req.body.adventure)
-      .name;
+    const adventureName = instance.find(
+      (item) => item.id == req.body.adventure
+    ).name;
 
     reservation.name = reservation.name
       .trim()
@@ -157,6 +159,78 @@ app.get("/reservations", (req, res) => {
   if (data) return res.json(data);
 });
 
+/*
+[POST] API used to insert a randomly generated adventure to a city
+The input is of the format
+{
+    "city": "bangkok"
+}
+The response is a randomly generated adventure inserted to given city
+{
+    "success": true,
+    "id": "3409781073",
+    "name": "Mereceville",
+    "costPerHead": 823,
+    "currency": "INR",
+    "image": "https://images.pexels.com/photos/837745/pexels-photo-837745.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+    "duration": 18,
+    "category": "Cycling"
+}
+*/
+app.post("/adventures/new", (req, res) => {
+  let categories = ["Beaches", "Cycling", "Hillside", "Party"];
+  let places = random_data.places;
+
+  let images_collection = random_data.images;
+  let images = [];
+  for (var i = 0; i < 3; i++) {
+    let index = randomInteger(0, 100);
+    images.push(images_collection[index]);
+  }
+
+  const city = req.body.city;
+  const nanoid = customAlphabet("1234567890", 10);
+  const id = nanoid();
+  const name = places[Math.floor(Math.random() * places.length)];
+  const price = randomInteger(500, 5000);
+  const adventureDetail = {
+    id: id,
+    name: name,
+    subtitle: "This is a mind-blowing randomly generated adventure!",
+    images: images,
+    content:
+      "A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete. By inserting a completely random paragraph from which to begin, it can take down some of the issues that may have been causing the writers' block in the first place. A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete. By inserting a completely random paragraph from which to begin, it can take down some of the issues that may have been causing the writers' block in the first place. A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete. By inserting a completely random paragraph from which to begin, it can take down some of the issues that may have been causing the writers' block in the first place. A random paragraph can also be an excellent way for a writer to tackle writers' block. Writing block can often happen due to being stuck with a current project that the writer is trying to complete.",
+    available: true,
+    reserved: false,
+    costPerHead: price,
+  };
+  const adventuresData = {
+    id: id,
+    name: name,
+    costPerHead: price,
+    currency: "INR",
+    image: images[Math.floor(Math.random() * images.length)],
+    duration: randomInteger(1, 20),
+    category: categories[Math.floor(Math.random() * categories.length)],
+  };
+
+  let detail = db.get("detail");
+  detail.push(adventureDetail).write();
+
+  let adventures = db
+    .get("adventures")
+    .find((item) => item.id == city)
+    .get("adventures")
+    .value();
+
+  adventures.push(adventuresData);
+  db.get("adventures")
+    .find((item) => item.id == city)
+    .assign({ adventures })
+    .write();
+
+  res.json({ success: true, ...adventuresData });
+});
 
 app.listen(process.env.PORT || PORT, () => {
   console.log(`Backend is running on port ${process.env.PORT || PORT}`);
