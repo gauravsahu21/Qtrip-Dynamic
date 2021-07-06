@@ -108,13 +108,11 @@ app.post("/reservations/new", (req, res) => {
       .find((item) => item.id == req.body.adventure)
       .assign({ reserved: true, available: false })
       .write();
-    const costPerHead = instance.find(
-      (item) => item.id == req.body.adventure
-    ).costPerHead;
+    const costPerHead = instance.find((item) => item.id == req.body.adventure)
+      .costPerHead;
 
-    const adventureName = instance.find(
-      (item) => item.id == req.body.adventure
-    ).name;
+    const adventureName = instance.find((item) => item.id == req.body.adventure)
+      .name;
 
     reservation.name = reservation.name
       .trim()
