@@ -1,16 +1,14 @@
-import { fetchCities, addCityToDOM } from "../../modules/landing_page.js";
+import { addCityToDOM, fetchCities } from "../../modules/landing_page.js";
 require("jest-fetch-mock").enableMocks();
 const fs = require("fs");
 const path = require("path");
+const mockCitiesData = require("../fixtures/cities.json");
+
 const html = fs.readFileSync(
   path.resolve(__dirname, "../../index.html"),
   "utf8"
 );
 jest.dontMock("fs");
-
-beforeEach(() => {
-  fetch.resetMocks();
-});
 
 describe("Landing Page Tests", function () {
   beforeEach(() => {
@@ -20,38 +18,51 @@ describe("Landing Page Tests", function () {
   afterEach(() => {
     // restore the original func after test
     jest.resetModules();
+    fetch.resetMocks();
   });
 
-  it("Check if fetch call for cities was made and data was received", async () => {
-    const data = await fetchCities();
+  it("fetchCities() - Makes a fetch call for /cities API endpoint and returns the data", async () => {
+    // Ref: https://www.leighhalliday.com/mock-fetch-jest
+    // fetch.mockResponseOnce argument has to be string
+    fetch.mockResponseOnce(JSON.stringify(mockCitiesData));
+
+    let data = await fetchCities();
+
+    expect(data).toEqual(mockCitiesData);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).not.toHaveBeenCalledWith(expect.stringContaining("//cities"));
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/cities"));
   });
 
-  it("Catches errors and returns null", async () => {
-    fetch.mockReject(() => "API failure");
+  it("fetchCities() - Catches error and returns null, if fetch call fails ", async () => {
+    fetch.mockReject(new Error(null));
 
-    const data = await fetchCities();
+    const data = fetchCities();
 
-    expect(data).toEqual(null);
+    await expect(data).resolves.toEqual(null);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).not.toHaveBeenCalledWith(expect.stringContaining("//cities"));
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/cities"));
   });
 
-  it("Tries adding a new City - London", function () {
-    addCityToDOM("london", "London", "London", "London");
+  it("addCityToDOM() - Adds a new city, London with id value of <a> tag set as london", function () {
+    addCityToDOM("london", "London", "London is the capital of UK", "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format");
     expect(document.getElementById("london")).toBeTruthy();
-
-    //add checks for tile and parent div has an id of data
   });
 
-  it("Check if City Card is linked correctly to Adventures page", function () {
+  it("addCityToDOM() - Correctly links city card to the corresponding Adventures page", function () {
     const expected = "adventures/?city=london";
-    addCityToDOM("london", "London", "London", "London");
+    addCityToDOM("london", "London", "London is the capital of UK", "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format");
     expect(document.getElementById("london").href).toEqual(
       expect.stringContaining(expected)
+    );
+  });
+
+  it("addCityToDOM() - Correctly links the city card <img> with image link", function () {
+    const imageLink = "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format";
+    addCityToDOM("london", "London", "London is the capital of UK", imageLink);
+    expect(document.querySelector("#london img").src).toEqual(
+      imageLink
     );
   });
 });
