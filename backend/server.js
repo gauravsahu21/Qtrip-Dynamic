@@ -16,8 +16,8 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Kolkata");
 
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = 8082;
 
@@ -98,6 +98,12 @@ If the reservation is successful, it flips the "available" key to "false" and "r
 */
 app.post("/reservations/new", (req, res) => {
   const reservation = req.body;
+  if (! (reservation.name && reservation.date && reservation.person && reservation.adventure)) {
+    return res.status(400).send({
+      message: `Invalid data received`,
+    });
+  }
+
   const instance = db.get("detail").value();
   const nanoid = customAlphabet("1234567890abcdef", 16);
   let reqDate = dayjs(req.body.date);
@@ -132,7 +138,7 @@ app.post("/reservations/new", (req, res) => {
     return res.json({ success: true });
   } else {
     return res.status(400).send({
-      message: `Date of booking is incorrect!`,
+      message: `Date of booking is incorrect. Can't book for a past date!`,
     });
   }
 });
