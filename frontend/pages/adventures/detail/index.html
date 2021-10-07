@@ -116,7 +116,7 @@
             addAdventureDetailsToDOM,
             addBootstrapPhotoGallery,
             conditionalRenderingOfReservationPanel,
-            captureFormSubmitUsingJQuery,
+            captureFormSubmit,
             calculateReservationCostAndUpdateDOM,
             showBannerIfAlreadyReserved,
         } from "../../../modules/adventure_details_page.js";
@@ -126,7 +126,7 @@
             addAdventureDetailsToDOM(adventureDetails);
             addBootstrapPhotoGallery(adventureDetails.images);
             conditionalRenderingOfReservationPanel(adventureDetails);
-            captureFormSubmitUsingJQuery(adventureDetails);
+            captureFormSubmit(adventureDetails);
             showBannerIfAlreadyReserved(adventureDetails);
             function onPersonsChange(event) {
                 calculateReservationCostAndUpdateDOM(

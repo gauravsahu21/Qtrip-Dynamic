@@ -6,11 +6,9 @@ import {
   addBootstrapPhotoGallery,
   calculateReservationCostAndUpdateDOM,
   showBannerIfAlreadyReserved,
-  captureFormSubmitUsingJQuery,
+  captureFormSubmit,
 } from "../../modules/adventure_details_page.js";
 require("jest-fetch-mock").enableMocks();
-global.jQuery = require("jquery");
-global.$ = global.jQuery;
 
 const fs = require("fs");
 const path = require("path");
@@ -20,16 +18,6 @@ const html = fs.readFileSync(
 );
 jest.dontMock("fs");
 jest.spyOn(window, "alert").mockImplementation(() => {});
-
-function ajax_response(response, success) {
-  return function (params) {
-    if (success) {
-      params.success(response);
-    } else {
-      params.error(response);
-    }
-  };
-}
 
 describe("Adventure Detail Page Tests", function () {
   const { reload } = window.location;
