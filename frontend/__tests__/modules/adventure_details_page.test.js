@@ -6,11 +6,9 @@ import {
   addBootstrapPhotoGallery,
   calculateReservationCostAndUpdateDOM,
   showBannerIfAlreadyReserved,
-  captureFormSubmitUsingJQuery,
+  captureFormSubmit,
 } from "../../modules/adventure_details_page.js";
 require("jest-fetch-mock").enableMocks();
-global.jQuery = require("jquery");
-global.$ = global.jQuery;
 
 const fs = require("fs");
 const path = require("path");
@@ -20,16 +18,6 @@ const html = fs.readFileSync(
 );
 jest.dontMock("fs");
 jest.spyOn(window, "alert").mockImplementation(() => {});
-
-function ajax_response(response, success) {
-  return function (params) {
-    if (success) {
-      params.success(response);
-    } else {
-      params.error(response);
-    }
-  };
-}
 
 describe("Adventure Detail Page Tests", function () {
   const { reload } = window.location;
@@ -239,7 +227,8 @@ describe("Adventure Detail Page Tests", function () {
       "none"
     );
   });
-  it("Check if JQuery form submission is taking place", function () {
+  
+  it("captureFormSubmit() - Makes a POST API call with correct request body", function () {
     let adventure = {
       id: "6298356896",
       name: "Grand Dinyardlodge",
@@ -254,18 +243,38 @@ describe("Adventure Detail Page Tests", function () {
       reserved: false,
       costPerHead: 1234,
     };
+    fetch.mockResponseOnce(JSON.stringify({ success: true }));
 
-    captureFormSubmitUsingJQuery(adventure);
+    captureFormSubmit(adventure);
 
-    $.ajax = ajax_response('{ "response": "Dummy response." }', false);
-    $("#myForm").trigger("submit");
-    expect(window.alert).toHaveBeenCalledWith("Failed!");
-    expect(window.location.reload).toHaveBeenCalledTimes(0);
+    document.getElementById("myForm").submit();
 
-    $.ajax = ajax_response('{ "response": "Dummy response." }', true);
-    $("#myForm").trigger("submit");
-    expect(window.alert).toHaveBeenCalledWith("Success!");
-    expect(window.location.reload).toHaveBeenCalled();
+    // Test if fetch was called
+    expect(fetch).toHaveBeenCalledTimes(1);
+    // Test if fetch was called with correct API url
+    expect(fetch.mock.calls[0][0]).toEqual(
+      expect.stringContaining("/reservations/new")
+    );
+    // Test if POST request was made
+    expect(fetch.mock.calls[0][1].method).toEqual(expect.stringMatching(/POST/i));
+    // Test if request headers were set to denote JSON body
+    expect(JSON.stringify(fetch.mock.calls[0][1].headers)).toEqual(
+      expect.stringContaining("application/json")
+    );
+    // Test if body contains the required fields
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty(
+      "name"
+    );
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty(
+      "date"
+    );
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty(
+      "person"
+    );
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty(
+      "adventure", adventure.id
+    );
+
+
   });
-
 });
