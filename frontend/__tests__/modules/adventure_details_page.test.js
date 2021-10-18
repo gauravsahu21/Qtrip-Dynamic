@@ -227,7 +227,6 @@ describe("Adventure Detail Page Tests", function () {
       "none"
     );
   });
-  
   it("captureFormSubmit() - Makes a POST API call with correct request body", function () {
     let adventure = {
       id: "6298356896",
@@ -256,25 +255,21 @@ describe("Adventure Detail Page Tests", function () {
       expect.stringContaining("/reservations/new")
     );
     // Test if POST request was made
-    expect(fetch.mock.calls[0][1].method).toEqual(expect.stringMatching(/POST/i));
+    expect(fetch.mock.calls[0][1].method).toEqual(
+      expect.stringMatching(/POST/i)
+    );
     // Test if request headers were set to denote JSON body
     expect(JSON.stringify(fetch.mock.calls[0][1].headers)).toEqual(
       expect.stringContaining("application/json")
     );
     // Test if body contains the required fields
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty("name");
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty("date");
+    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty("person");
     expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty(
-      "name"
+      "adventure",
+      adventure.id
     );
-    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty(
-      "date"
-    );
-    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty(
-      "person"
-    );
-    expect(JSON.parse(fetch.mock.calls[0][1].body)).toHaveProperty(
-      "adventure", adventure.id
-    );
-
 
   });
 });
