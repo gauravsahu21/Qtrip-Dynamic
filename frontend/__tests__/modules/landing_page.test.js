@@ -21,17 +21,18 @@ describe("Landing Page Tests", function () {
     fetch.resetMocks();
   });
 
-  it("fetchCities() - Makes a fetch call for /cities API endpoint and returns the data", async () => {
+  it("fetchCities() - Makes a fetch call for /cities API endpoint and returns an array with the cities data", async () => {
     // Ref: https://www.leighhalliday.com/mock-fetch-jest
     // fetch.mockResponseOnce argument has to be string
     fetch.mockResponseOnce(JSON.stringify(mockCitiesData));
 
     let data = await fetchCities();
 
-    expect(data).toEqual(mockCitiesData);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).not.toHaveBeenCalledWith(expect.stringContaining("//cities"));
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/cities"));
+    expect(data).toBeInstanceOf(Array);
+    expect(data).toEqual(mockCitiesData);
   });
 
   it("fetchCities() - Catches error and returns null, if fetch call fails ", async () => {
@@ -55,14 +56,6 @@ describe("Landing Page Tests", function () {
     addCityToDOM("london", "London", "London is the capital of UK", "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format");
     expect(document.getElementById("london").href).toEqual(
       expect.stringContaining(expected)
-    );
-  });
-
-  it("addCityToDOM() - Correctly links the city card <img> with image link", function () {
-    const imageLink = "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format";
-    addCityToDOM("london", "London", "London is the capital of UK", imageLink);
-    expect(document.querySelector("#london img").src).toEqual(
-      imageLink
     );
   });
 });
