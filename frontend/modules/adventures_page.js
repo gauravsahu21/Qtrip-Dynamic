@@ -55,7 +55,7 @@ function filterFunction(list, filters) {
 //Implementation of localStorage API to save filters to local storage. This should get called everytime an onChange() happens in either of filter dropdowns
 function saveFiltersToLocalStorage(filters) {
   // TODO: MODULE_FILTERS
-  // 1. Store the filters to localStorage using JSON.stringify()
+  // 1. Store the filters as a String to localStorage
 
   return true;
 }
@@ -63,7 +63,7 @@ function saveFiltersToLocalStorage(filters) {
 //Implementation of localStorage API to get filters from local storage. This should get called whenever the DOM is loaded.
 function getFiltersFromLocalStorage() {
   // TODO: MODULE_FILTERS
-  // 1. Get the filters from localStorage and return in JSON format
+  // 1. Get the filters from localStorage and return String read as an object
 
 
   // Place holder for functionality to work in the Stubs
@@ -76,7 +76,7 @@ function getFiltersFromLocalStorage() {
 
 function generateFilterPillsAndUpdateDOM(filters) {
   // TODO: MODULE_FILTERS
-  // 1. Use the filters given as input, update the Duration Filter and Generate Category Pills
+  // 1. Use the filters given as input, update the Duration Filter value and Generate Category Pills
 
 }
 export {
