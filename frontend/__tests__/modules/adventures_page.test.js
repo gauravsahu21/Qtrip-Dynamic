@@ -8,6 +8,7 @@ import {
   filterFunction,
   saveFiltersToLocalStorage,
   getFiltersFromLocalStorage,
+  generateFilterPillsAndUpdateDOM
 } from "../../modules/adventures_page.js";
 
 require("jest-fetch-mock").enableMocks();
@@ -18,6 +19,8 @@ const html = fs.readFileSync(
   path.resolve(__dirname, "../../pages/adventures/index.html"),
   "utf8"
 );
+const mockAdventuresData = require("../fixtures/adventures.json");
+
 jest.dontMock("fs");
 
 Storage.prototype.getItem = jest.fn(() => expectedPayload);
@@ -40,30 +43,40 @@ describe("Adventure Page Tests", function () {
     jest.resetModules();
   });
 
-  it("Extract city from URL Params", async () => {
+  it("getCityFromURL() - Extracts city from query parameter and return it", async () => {
     const city = await getCityFromURL("?city=london");
     expect(city).toEqual("london");
   });
 
-  it("Check if fetch call for the adventures was made and data was received", async () => {
+  it("fetchAdventures() - Makes a fetch call for /adventures API endpoint and returns an array with the adventures data", async () => {
+    fetch.mockResponseOnce(JSON.stringify(mockAdventuresData));
+
     const data = await fetchAdventures("bengaluru");
+
     expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/adventures"));
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining("?city=bengaluru")
+    );
+
+    expect(data).toBeInstanceOf(Array);
+    expect(data).toEqual(mockAdventuresData);
+  });
+
+  it("fetchAdventures() - Catches errors and returns null, if fetch call fails", async () => {
+    fetch.mockReject(new Error(null));
+
+    const data = fetchAdventures("bengaluru");
+
+    await expect(data).resolves.toEqual(null);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining("/adventures"));
     expect(fetch).toHaveBeenCalledWith(
       expect.stringContaining("?city=bengaluru")
     );
   });
 
-  it("Catches errors and returns null", async () => {
-    fetch.mockReject(() => "API failure");
-
-    const data = await fetchAdventures("bengaluru");
-    expect(data).toEqual(null);
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining("?city=bengaluru")
-    );
-  });
-  it("Tries adding a new Adventure - Park", function () {
+  it("addAdventureToDOM() - Adds a new Adventure with id value set to <a> tag", function () {
     addAdventureToDOM([
       {
         category: "park",
@@ -78,9 +91,7 @@ describe("Adventure Page Tests", function () {
     expect(document.getElementById("park")).toBeTruthy();
   });
 
-  it("Check if City Card is linked correctly to Adventures page", function () {
-    const expected = "/detail/?adventure=123456";
-
+  it("addAdventureToDOM() - <a> tag links the adventure card correctly to the corresponding Adventure details page", function () {
     addAdventureToDOM([
       {
         category: "park",
@@ -93,7 +104,10 @@ describe("Adventure Page Tests", function () {
       },
     ]);
     expect(document.getElementById("123456").href).toEqual(
-      expect.stringContaining(expected)
+      expect.stringContaining("/detail")
+    );
+    expect(document.getElementById("123456").href).toEqual(
+      expect.stringContaining("?adventure=123456")
     );
   });
 

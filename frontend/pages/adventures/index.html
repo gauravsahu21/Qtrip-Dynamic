@@ -10,14 +10,13 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand ps-3" href="../../">QTrip</a>
-        <div id="city-name"></div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ps-3">
+        <a class="navbar-brand" href="../../">QTrip</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav d-flex justify-content-end w-100">
                 <li class="nav-item active">
@@ -30,17 +29,21 @@
         </div>
     </nav>
 
+    <!-- Content section -->
     <div class="container">
         <div class="content">
+            <!-- Page heading and description -->
             <h1>Explore all adventures</h1>
             <p style="font-size: 24px">
                 Here's a list of places that you can explore in city
             </p>
             <div class="mb-5">
+                <!-- Filters section -->
                 <div class="filter-bar d-flex align-items-center">
                     <div class="filter-bar-tile">
                         <label for="duration">Filters:</label>
                     </div>
+                    <!-- Duration filter (select one) -->
                     <div class="filter-bar-tile d-flex align-items-center">
                         <select class="form-control" name="duration" id="duration-select"
                             onchange="selectDuration(event)">
@@ -56,6 +59,7 @@
                             Clear
                         </div>
                     </div>
+                    <!-- Category filter (select one or many) -->
                     <div class="filter-bar-tile d-flex align-items-center">
                         <select class="form-control" id="category-select" onchange="selectCategory(event)">
                             <option disabled selected value="">Add Category</option>
@@ -69,14 +73,18 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Section to display all selected categories  -->
                 <div class="mt-2" id="category-section">
                     <div class="d-flex align-items-center" id="category-list"></div>
                 </div>
             </div>
+            <!-- Display Adventures cards -->
             <div class="row" id="data"></div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer>
         <div class="container">© QTrip 2020</div>
     </footer>
@@ -112,12 +120,18 @@
                 ? getFiltersFromLocalStorage()
                 : { duration: "", category: [] };
 
-
+        console.log(filters);
+        
         //entry point (executed when DOM is loaded)
         (async function () {
 
-            //Fetches the City from URL query param (here : window.location.search is an in-built browser property that returns the query param from URL, example: http://localhost:8081/?city=bengaluru => window.location.search would return "?city=bengaluru")
-            let city = await getCityFromURL(window.location.search);
+            /* 
+             * Fetches the City from URL query param 
+             * window.location.search is an in-built browser property that 
+             * returns the query param from URL, 
+             * example: http://localhost:8081/?city=bengaluru => window.location.search would return "?city=bengaluru"
+             */
+            let city = getCityFromURL(window.location.search);
 
             //Fetches the adventures for the particular city
             adventures = await fetchAdventures(city);
