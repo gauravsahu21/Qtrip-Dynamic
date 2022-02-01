@@ -32,10 +32,11 @@ function addCityToDOM(id, city, description, image) {
   // 1. Populate the City details and insert those details into the DOM
 var a=document.createElement("a");
 a.href=`pages/adventures/?city=${id}`;
+a.setAttribute("id",id);
 
  var div=document.createElement("div");
  div.setAttribute("class","col-12 col-sm-6 col-lg-3");
- div.setAttribute("id",id);
+ 
  div.style.marginBottom="25px";
  document.getElementById("data").append(div);
  div.append(a);
@@ -45,7 +46,7 @@ a.href=`pages/adventures/?city=${id}`;
  img.src=image;
  var div3=document.createElement("div");
  div3.setAttribute("class","tile-text");
- var h2=document.createElement("h2");
+ var h2=document.createElement("h5");
  h2.innerText=city;
  var p=document.createElement("p");
  p.innerText=description;
