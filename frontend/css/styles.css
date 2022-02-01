@@ -75,6 +75,9 @@ footer {
   z-index: 1;
   text-transform: uppercase;
   letter-spacing: 2px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
 }
 .hero-image {
   /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
