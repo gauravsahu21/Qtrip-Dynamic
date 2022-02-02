@@ -4,6 +4,9 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
+  let id=search.substring(6,search.length);
+
+  return id;
 
 }
 
@@ -11,13 +14,68 @@ function getCityFromURL(search) {
 async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
+ 
+  try{
+    const data= await fetch(`http://3.6.120.58:8082/adventures/?city=${city}`);
+   return await data.json();
+    
+   }
+  catch{
+    return null;
 
+  }
 }
 
 //Implementation of DOM manipulation to add adventures for the given city from list of adventures
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  console.log(adventures);
+  for(let i=0;i<adventures.length;i++)
+  {
+    var div=document.createElement("div");
+    div.setAttribute("class","col-12 col-sm-6 col-lg-3 mb-3");
+    var a=document.createElement("a");
+    a.setAttribute("id",`${adventures[i].id}`);
+    a.href=`detail/?adventure=${adventures[i].id}`;
+    var div1=document.createElement("div");
+    div1.setAttribute("class","card activity-card");
+    var img=document.createElement("img");
+    img.src=adventures[i].image;
+    var div2=document.createElement("div");
+    var cat=document.createElement("div");
+    cat.setAttribute("class","category-banner")
+    cat.innerText=adventures[i].category;
+    div2.setAttribute("class","card-body");
+    var div3=document.createElement("div");
+    div3.setAttribute("class","d-flex justify-content-between");
+    var p1=document.createElement("p");
+    p1.innerText=adventures[i].name;
+    var p2=document.createElement("p");
+    p2.innerText="₹"+adventures[i].costPerHead;
+    var div4=document.createElement("div");
+    div4.setAttribute("class","d-flex justify-content-between");
+    var p3=document.createElement("p");
+    p3.innerText="Duration";
+    var p4=document.createElement("p");
+    p4.innerText=adventures[i].duration+" Hours";
+    div4.append(p3);
+    div4.append(p4);
+
+    div3.append(p1);
+    div3.append(p2);
+    div2.append(div3);
+    div2.append(div4);
+    div1.append(img);
+    div1.append(cat);
+    div1.append(div2);
+    a.append(div1);
+    div.append(a);
+    document.getElementById("data").append(div);
+
+  }
+  
+  
 
 }
 
