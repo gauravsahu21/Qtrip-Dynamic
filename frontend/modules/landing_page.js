@@ -34,7 +34,7 @@ let conatiner=document.createElement("div")
 conatiner.className="col-12 col-sm-6 col-lg-3 mb-4"
 let atag=document.createElement("a")
 atag.setAttribute("id",id)
-atag.href=`/pages/adventures/?city=${id}`
+atag.href=`pages/adventures/?city=${id}`
 
 let tile=document.createElement("div")
 tile.className="tile"
