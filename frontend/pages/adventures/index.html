@@ -76,7 +76,8 @@
 
                 <!-- Section to display all selected categories  -->
                 <div class="mt-2" id="category-section">
-                    <div class="d-flex align-items-center" id="category-list"></div>
+                    <div class="d-flex align-items-center" id="category-list">
+                    </div>
                 </div>
             </div>
             <!-- Display Adventures cards -->
@@ -152,14 +153,29 @@
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to show the selected duration filter. Use the provided input event
             // 2. Invoke saveFiltersToLocalStorage here
-
+           
+             let duration=event.target.value;
+             //console.log(duration);
+             filters["duration"]=duration;
+             //generateFilterPillsAndUpdateDOM(filters);
+             //console.log(filters);
+            let filteredAdventures = filterFunction(adventures, filters);
+            addAdventureToDOM(filteredAdventures);
+            saveFiltersToLocalStorage(filters);
+             
         }
 
         //executed when clear button is clicked on duration filter dropdown
         function clearDuration(event) {
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
+              filters["duration"]="";
+              //console.log(filters,"abc");
+              let filteredAdventures = filterFunction(adventures, filters);
+              addAdventureToDOM(filteredAdventures);
+
             // 2. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
 
         }
 
@@ -183,6 +199,7 @@
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
         }
 
         //executed when clear button is clicked on category filter dropdown
@@ -191,11 +208,13 @@
             document.getElementById("category-list").textContent = "";
 
             filters["category"] = [];
+        
             let filteredAdventures = filterFunction(adventures, filters);
             addAdventureToDOM(filteredAdventures);
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
         }
 
         //helper function
