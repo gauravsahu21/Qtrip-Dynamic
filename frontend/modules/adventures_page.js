@@ -125,15 +125,21 @@ function filterFunction(list, filters) {
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
 if(filters["category"].length>0&&filters["duration"].length>0){
   
- list=filterByCategory(list,filters.category);
- list=filterByDuration(list,arr[0],arr[1]);
+ let arr1=filterByCategory(list,filters.category);
+ let arr2=filterByDuration(list,arr[0],arr[1]);
+console.log(arr1);
+console.log(arr2);
+const intersection = arr1.filter((item1) =>
+  arr2.some((item2) => item1.id === item2.id)
+);
+return intersection;
+
 
 }else if(filters["category"].length>0&&filters["duration"].length==0){
-  list=filterByCategory(list,filters.category);
+  return filterByCategory(list,filters.category);
 }else if(filters["category"].length==0&&filters["duration"].length>0){
   
-  
- list=filterByCategory(list,arr[0],arr[1]);
+ return filterByCategory(list,arr[0],arr[1]);
 }else{
   return list;
 }
