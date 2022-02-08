@@ -5,7 +5,6 @@ function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
   let id=search.substring(6,search.length);
-
   return id;
 
 }
@@ -123,21 +122,20 @@ function filterFunction(list, filters) {
   // TODO: MODULE_FILTERS
   // 1. Handle the 3 cases detailed in the comments above and return the filtered list of adventures
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
-if(filters["category"].length>0&&filters["duration"].length>0){
+  let filteredList=[];
+if(filters["category"].length>0 && filters["duration"].length>0){
   
- let arr1=filterByCategory(list,filters.category);
- let arr2=filterByDuration(list,arr[0],arr[1]);
-console.log(arr1);
-console.log(arr2);
-const intersection = arr1.filter((item1) =>
-  arr2.some((item2) => item1.id === item2.id)
-);
-return intersection;
+ 
+ filteredList=filterByDuration(list,parseInt(arr[0]),parseInt(arr[1]));
+// console.log(arr1);
+// console.log(arr2);
+filteredList=filterByCategory(filteredList,filters["category"]);
+return filteredList;
 
 
 }else if(filters["category"].length>0&&filters["duration"].length==0){
-  return filterByCategory(list,filters.category);
-}else if(filters["category"].length==0&&filters["duration"].length>0){
+  return filterByCategory(list,filters["category"]);
+}else if(filters["category"].length==0 && filters["duration"].length>0){
   
  return filterByCategory(list,arr[0],arr[1]);
 }else{
@@ -153,7 +151,7 @@ function saveFiltersToLocalStorage(filters) {
   // TODO: MODULE_FILTERS
   // 1. Store the filters as a String to localStorage
   window.localStorage.setItem("filters", JSON.stringify(filters));
-  
+  return true;
 }
 
 //Implementation of localStorage API to get filters from local storage. This should get called whenever the DOM is loaded.
