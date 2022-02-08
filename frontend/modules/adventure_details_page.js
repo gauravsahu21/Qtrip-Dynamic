@@ -59,57 +59,36 @@ function addAdventureDetailsToDOM(adventure) {
 function addBootstrapPhotoGallery(images) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the bootstrap carousel to show the Adventure images
-  console.log(images.length);
-   var div=document.getElementById("photo-gallery");
-   
-   var output="<div id=\"carouselExampleControls\" class=\"carousel slide\" data-ride=\"carousel\">";
-   output+="<ol class=\"carousel-indicators\">";
-   output+="<li data-target=\"#carouselExampleControls\" data-slide-to=\"0\" class=\"active\"></li>";
-   output+="<li data-target=\"#carouselExampleControls\" data-slide-to=\"1\"></li>";
-   output+="<li data-target=\"#carouselExampleControls\" data-slide-to=\"2\"></li>";
-   output+="</ol>";
-
-    output+="<div class=\"carousel-inner\">";
-    for(var i=0;i<images.length;i++)
-    {
-      if(i==0)
-          {output+="<div class=\"carousel-item active activity-card-image\">";  
-          output+="<img class=\"d-block w-100\" src="+images[i] +"alt=\"First slide\">";
-          output+="</div>";}
-       else{
-        output+="<div class=\"carousel-item  activity-card-image\">";  
-        output+="<img class=\"d-block w-100\" src="+images[i] +"alt=\"\">";
-        output+="</div>";
-       }   
-   }
-   //EXAMPLE CODE TO CHECK IF IT WORKS OR NOT 
-               //  output+="<div class=\"carousel-item active activity-card-image\">";
-               //   output+="<img class=\"d-block w-100\" src="+images[0] +"alt=\"First slide\">";
-               //   output+="</div>";
-               //   output+="<div class=\"carousel-item activity-card-image\">";
-               //   output+="<img class=\"d-block w-100\"src="+images[1]+" alt=\"Second slide\">";
-               //   output+="</div>";
-               //   output+="<div class=\"carousel-item activity-card-image\">";
-               //   output+="<img class=\"d-block w-100\" src="+images[2]+" alt=\"third slide\">";
-              //   output+="</div>";
-    output+="</div>";
-    output+="<a class=\"carousel-control-prev\" href=\"#carouselExampleControls\" role=\"button\" data-slide=\"prev\">";
-    output+="<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>";
-   
-    output+="</a>";
-    output+="<a class=\"carousel-control-next\" href=\"#carouselExampleControls\" role=\"button\" data-slide=\"next\">";
-    output+="<span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>";
-   
-    output+="</a>";
-    output+="</div>";
-    div.innerHTML=output;
-
-
-   
+   let photoGallery = document.getElementById("photo-gallery")
+   photoGallery.innerHTML=`
+   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+   <div class="carousel-indicators">
+     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true"></button>
+     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="slide 2"></button>
+     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="slide 3"></button>
+   </div>
+   <div class="carousel-inner"  id="carousel-inner">
+   </div>
+   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+     <span class="visually-hidden">Previous</span>
+   </button>
+   <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+     <span class="visually-hidden">Next</span>
+   </button>
+ </div>
+   `
+   images.map((key,index)=>{
+     let divElement = document.createElement("div");
+     divElement.className=`carousel-item ${index===0?'active':''}`;
+     divElement.innerHTML=`
+       <img src=${key} class="activity-card-image pb-3"/>
+     `;
+     document.getElementById("carousel-inner").appendChild(divElement);
+   });
+ }
   
- 
-
-}
 
 //Implementation of conditional rendering of DOM based on availability
 function conditionalRenderingOfReservationPanel(adventure) {

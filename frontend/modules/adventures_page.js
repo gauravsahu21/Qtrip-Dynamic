@@ -4,8 +4,10 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
-  let id=search.substring(6,search.length);
-  return id;
+  console.log(search)
+      let params = new URLSearchParams(search);
+      console.log(params.get('city'))
+     return params.get('city')
 
 }
 
@@ -117,32 +119,31 @@ function filterByCategory(list, categoryList) {
 // 3. Filter by duration and category together
 
 function filterFunction(list, filters) {
+  
+
+  // TODO: MODULE_FILTERS
+  // 1. Handle the 3 cases detailed in the comments above and return the filtered list of adventures
+  // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
+
+  let filteredlist =[]
   let arr=filters["duration"].split("-")
 
   // TODO: MODULE_FILTERS
   // 1. Handle the 3 cases detailed in the comments above and return the filtered list of adventures
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
-  let filteredList=[];
-if(filters["category"].length>0 && filters["duration"].length>0){
-  
- 
- filteredList=filterByDuration(list,parseInt(arr[0]),parseInt(arr[1]));
-// console.log(arr1);
-// console.log(arr2);
-filteredList=filterByCategory(filteredList,filters["category"]);
-return filteredList;
+if(filters["category"].length>0&&filters["duration"].length>0){
 
-
-}else if(filters["category"].length>0&&filters["duration"].length==0){
-  return filterByCategory(list,filters["category"]);
-}else if(filters["category"].length==0 && filters["duration"].length>0){
-  
- return filterByCategory(list,arr[0],arr[1]);
+ filteredlist=filterByCategory(list,filters.category)
+ filteredlist=filterByDuration(filteredlist,parseInt(arr[0]),parseInt(arr[1]))
+}else if(filters["category"].length>0){
+  filteredlist=filterByCategory(list,filters.category);
+}else if(filters["duration"].length>0){
+ filteredlist=filterByDuration(list,parseInt(arr[0]),parseInt(arr[1]))
 }else{
   return list;
 }
   // Place holder for functionality to work in the Stubs
-  return list;
+ return filteredlist;
   
 }
 
@@ -158,7 +159,7 @@ function saveFiltersToLocalStorage(filters) {
 function getFiltersFromLocalStorage(filters) {
   // TODO: MODULE_FILTERS
   // 1. Get the filters from localStorage and return String read as an object
-  JSON.parse(window.localStorage.getItem('filters'));
+  return JSON.parse(window.localStorage.getItem('filters'));
   return null;
 
   // Place holder for functionality to work in the Stubs
