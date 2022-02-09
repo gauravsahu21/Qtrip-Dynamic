@@ -63,7 +63,7 @@ footer {
   height: 100%;
   border-radius: 8px;
   -webkit-transition: 0.2s all;
-  /* -webkit-filter: brightness(70%); */
+  /* -webkity-filter: brightness(70%); */
 }
 .tile img:hover {
   -webkit-filter: brightness(50%);
