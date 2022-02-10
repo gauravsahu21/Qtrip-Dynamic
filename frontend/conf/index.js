@@ -1,4 +1,4 @@
 
-const config = { backendEndpoint: "http://3.108.158.231:8082" };
+const config = { backendEndpoint: "https://gaurav-qtripdynamic.herokuapp.com" };
 
 export default config;
